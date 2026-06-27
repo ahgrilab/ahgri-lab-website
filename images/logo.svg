@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Water drop shape with crop/leaf line inside -->
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DC4405"/>
+      <stop offset="100%" stop-color="#b83600"/>
+    </linearGradient>
+  </defs>
+  <!-- Drop / field shape -->
+  <path d="M24 4 C24 4 8 20 8 30 A16 16 0 0 0 40 30 C40 20 24 4 24 4Z" fill="url(#g1)"/>
+  <!-- Leaf vein / ET arrow -->
+  <path d="M24 14 L24 34" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  <path d="M18 24 L24 18 L30 24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Soil/ground lines -->
+  <line x1="16" y1="32" x2="20" y2="32" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="22" y1="35" x2="28" y2="35" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="28" y1="32" x2="32" y2="32" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
