@@ -492,7 +492,7 @@ footer {
   line-height: 1.7; margin-bottom: 0.85rem;
 }
 .footer-contact .footer-title-lines { margin: 0 0 0.15rem; line-height: 1.4; }
-.footer-contact .fc-address.fc-block {display: block; line-height: 1.4; }
+.footer-contact .fc-address .fc-block { display: block; line-height: 1.4; }
 .footer-contact a { color: rgba(255,255,255,0.6); }
 .footer-contact a:hover { color: var(--orange); }
 .footer-contact-row { display: flex; align-items: flex-start; gap: 0; }
