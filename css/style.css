@@ -248,7 +248,7 @@ hr.divider {
   background: var(--black);
   display: flex; align-items: flex-start; justify-content: center;
   font-family: var(--serif);
-  font-size: 2.5rem; font-weight: 700;
+  font-size: 4.5rem; font-weight: 1000;
   color: var(--orange);
   overflow: hidden;
 }
