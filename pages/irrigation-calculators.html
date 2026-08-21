@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irrigation Calculators | AHGRI Lab</title>
+
+<link rel="icon" href="/images/logo-emblem.png" type="image/png">
+<link rel="stylesheet" href="/css/style.css">
+
+<style>
+/* ── Page-specific styles: Irrigation Calculators ── */
+.calc-intro { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 2rem; }
+.calc-intro .section-desc { margin-bottom: 0; }
+
+.unit-toggle { display: inline-flex; border: 1.5px solid var(--light-gray); border-radius: 6px; overflow: hidden; background: var(--white); }
+.unit-toggle button { border: none; background: transparent; padding: 0.55rem 1.2rem; font-family: var(--sans); font-size: 0.82rem; font-weight: 600; color: var(--gray); cursor: pointer; transition: all 0.15s; }
+.unit-toggle button.active { background: var(--orange); color: var(--white); }
+
+.tool-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+.tool-tabs button { display: flex; align-items: center; gap: 0.75rem; text-align: left; border: 1.5px solid var(--light-gray); border-radius: var(--radius); background: var(--white); padding: 0.85rem 1rem; cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
+.tool-tabs button:hover { border-color: var(--orange); }
+.tool-tabs button.active { border-color: var(--orange); background: var(--orange-pale); }
+.tool-tabs .tab-mark { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--orange); min-width: 2rem; }
+.tool-tabs small { display: block; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); }
+.tool-tabs strong { font-size: 0.88rem; color: var(--black); }
+
+.calc-shell { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.25rem; align-items: start; }
+.calc-form { background: var(--white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.75rem; }
+.panel-heading { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+.panel-heading h3 { font-family: var(--serif); font-size: 1.15rem; color: var(--black); margin-bottom: 0.25rem; }
+.panel-heading p { font-size: 0.85rem; color: var(--gray); line-height: 1.6; }
+.panel-heading > span { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--orange); border: 1.5px solid var(--orange); border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+.field { display: block; }
+.field-label { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); margin-bottom: 0.4rem; }
+.input-shell { display: flex; align-items: stretch; border: 1.5px solid var(--light-gray); border-radius: 6px; overflow: hidden; background: var(--white); }
+.input-shell:focus-within { border-color: var(--orange); }
+.input-shell input, .input-shell textarea, .input-shell select { flex: 1; border: none; outline: none; padding: 0.6rem 0.75rem; font-family: var(--sans); font-size: 0.95rem; color: var(--black); min-width: 0; background: transparent; }
+.input-shell > span { display: flex; align-items: center; padding: 0 0.75rem; background: var(--off-white); font-size: 0.75rem; font-weight: 600; color: var(--gray); border-left: 1px solid var(--light-gray); white-space: nowrap; }
+.field small { display: block; font-size: 0.72rem; color: var(--gray); margin-top: 0.35rem; line-height: 1.5; }
+.full-field { grid-column: 1 / -1; }
+.full-field textarea { width: 100%; border: 1.5px solid var(--light-gray); border-radius: 6px; padding: 0.6rem 0.75rem; font-family: var(--mono); font-size: 0.85rem; resize: vertical; }
+.full-field textarea:focus { border-color: var(--orange); outline: none; }
+
+.formula-strip { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.5rem; padding: 0.75rem 1rem; background: var(--off-white); border-radius: 6px; }
+.formula-strip span { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); }
+.formula-strip code { font-family: var(--mono); font-size: 0.85rem; color: var(--black); }
+
+.mini-chart { display: flex; align-items: flex-end; gap: 3px; height: 70px; margin-top: 1rem; padding: 0.5rem; background: var(--off-white); border-radius: 6px; }
+.mini-chart span { flex: 1; background: var(--orange); border-radius: 2px 2px 0 0; min-height: 3px; opacity: 0.75; }
+
+.results-panel { background: var(--black); color: var(--white); border-radius: var(--radius); padding: 1.75rem; position: sticky; top: calc(var(--nav-h) + 1rem); }
+.results-eyebrow { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--orange); margin-bottom: 1rem; }
+.metric { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.metric span { display: block; font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-bottom: 0.15rem; }
+.metric strong { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; color: var(--white); margin-right: 0.35rem; }
+.metric.primary strong { font-size: 2.2rem; color: var(--orange-light); }
+.metric small { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+.metric-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.interpretation { font-size: 0.8rem; line-height: 1.6; color: rgba(255,255,255,0.65); margin-top: 1rem; }
+.results-note { font-size: 0.68rem; color: rgba(255,255,255,0.35); margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.guide-card { border: 1px solid var(--light-gray); border-radius: var(--radius); background: var(--white); overflow: hidden; }
+.guide-card > button { width: 100%; display: flex; align-items: center; gap: 1rem; border: none; background: transparent; padding: 1.1rem 1.25rem; cursor: pointer; font-family: var(--sans); text-align: left; }
+.guide-card .guide-number { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--orange); }
+.guide-card small { display: block; font-size: 0.7rem; color: var(--gray); }
+.guide-card strong { font-size: 0.95rem; color: var(--black); }
+.guide-card i { margin-left: auto; font-style: normal; font-size: 1.2rem; color: var(--orange); }
+.guide-content { padding: 0 1.25rem 1.25rem 3.4rem; }
+.kit-label { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--orange); margin-bottom: 0.25rem; }
+.kit-list { font-size: 0.82rem; color: var(--mid); margin-bottom: 0.75rem; }
+.guide-content ol { padding-left: 1.1rem; }
+.guide-content li { font-size: 0.85rem; color: var(--dark); line-height: 1.65; margin-bottom: 0.35rem; }
+.use-method { margin-top: 0.75rem; border: none; background: var(--orange-pale); color: var(--orange); font-family: var(--sans); font-size: 0.78rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+.use-method:hover { background: var(--orange); color: var(--white); }
+
+.habits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2rem; }
+.habits-grid article { background: var(--white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.5rem; }
+.habits-grid article > span { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); }
+.habits-grid h3 { font-family: var(--serif); font-size: 1.05rem; color: var(--black); margin: 0.5rem 0 0.4rem; }
+.habits-grid p { font-size: 0.85rem; color: var(--gray); line-height: 1.7; }
+
+.conversion-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem; }
+.conversion-list > div { background: var(--white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.25rem; text-align: center; }
+.conversion-list span { display: block; font-size: 0.72rem; color: var(--gray); margin-bottom: 0.35rem; }
+.conversion-list strong { display: block; font-family: var(--serif); font-size: 1.5rem; color: var(--orange); }
+.conversion-list small { font-size: 0.75rem; color: var(--mid); }
+
+.ref-list { list-style: none; counter-reset: ref; margin-top: 2rem; max-width: 900px; }
+.ref-list li { counter-increment: ref; display: flex; gap: 1rem; align-items: baseline; padding: 0.9rem 0; border-bottom: 1px solid var(--light-gray); }
+.ref-list li::before { content: counter(ref, decimal-leading-zero); font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); }
+.ref-list p { flex: 1; font-size: 0.83rem; color: var(--dark); line-height: 1.65; }
+.ref-list a { font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+.ref-download { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+
+.caution-band { background: var(--orange-pale); border-left: 4px solid var(--orange); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.25rem 1.5rem; margin-top: 2.5rem; }
+.caution-band strong { color: var(--orange-deep); font-size: 0.9rem; }
+.caution-band p { font-size: 0.85rem; color: var(--dark); line-height: 1.7; margin-top: 0.25rem; }
+
+@media (max-width: 980px) {
+  .tool-tabs { grid-template-columns: 1fr 1fr; }
+  .calc-shell { grid-template-columns: 1fr; }
+  .results-panel { position: static; }
+  .guide-grid, .habits-grid { grid-template-columns: 1fr; }
+  .conversion-list { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<nav id="main-nav">
+  <a href="/index.html" class="nav-brand">
+    <img src="/images/logo-header.png" alt="AHGRI: AgroHydrology Research & Innovation" class="nav-logo-full">
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/pages/projects.html">Research Projects</a></li>
+    <li><a href="/pages/people.html">People</a></li>
+    <li><a href="/pages/publications.html">Publications</a></li>
+    <li><a href="/pages/teaching.html">Teaching</a></li>
+    <li><a href="/pages/data.html" class="active">Data &amp; Software</a></li>
+    <li><a href="/pages/grants.html">Grants</a></li>
+    <li><a href="/pages/galleries.html">Galleries</a></li>
+    <li><a href="/pages/news.html">News</a></li>
+    <li><a href="/pages/contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main>
+<div class="page-hero"></div>
+
+  <!-- ── CALCULATOR WORKSPACE ── -->
+  <section class="section"><div class="container">
+    <div class="calc-intro">
+      <div>
+        <p class="section-label">Irrigation Measurement Calculators</p>
+        <h2 class="section-title">Measure water. Manage every drop.</h2>
+        <p class="section-desc">Turn field observations into irrigation-ready numbers. Choose a method, enter your measurements, and see the result with the formula behind it. A tool of the AHGRI Lab at Oregon State University.</p>
+      </div>
+      <div class="unit-toggle" role="group" aria-label="Unit system">
+        <button id="unit-us" class="active" aria-pressed="true" onclick="switchUnits('us')">US units</button>
+        <button id="unit-metric" aria-pressed="false" onclick="switchUnits('metric')">Metric</button>
+      </div>
+    </div>
+
+    <div class="tool-tabs" role="tablist" aria-label="Measurement tools">
+      <button id="tab-flow" role="tab" aria-selected="true" class="active" onclick="switchTool('flow')"><span class="tab-mark">Q</span><span><small>Timed volume</small><strong>Pump discharge</strong></span></button>
+      <button id="tab-depth" role="tab" aria-selected="false" onclick="switchTool('depth')"><span class="tab-mark">D</span><span><small>Flow &times; time</small><strong>Applied depth</strong></span></button>
+      <button id="tab-uniformity" role="tab" aria-selected="false" onclick="switchTool('uniformity')"><span class="tab-mark">DU</span><span><small>Catch cans</small><strong>Uniformity</strong></span></button>
+      <button id="tab-soil" role="tab" aria-selected="false" onclick="switchTool('soil')"><span class="tab-mark">&theta;</span><span><small>Root-zone refill</small><strong>Soil water</strong></span></button>
+    </div>
+
+    <div class="calc-shell">
+      <div class="calc-form">
+
+        <div id="panel-flow" role="tabpanel">
+          <div class="panel-heading"><span>01</span><div><h3>Timed-volume discharge</h3><p>Collect water in a container of known volume and time each fill. Enter one fill time per trial; the calculator averages the trial discharges.</p></div></div>
+          <div class="form-grid">
+            <label class="field"><span class="field-label">Collected volume</span><span class="input-shell"><input type="number" id="in-volume" min="0" step="any" value="5"><span id="suffix-volume">gal</span></span></label>
+            <label class="field full-field"><span class="field-label">Fill times (one per trial)</span><span class="input-shell"><input type="text" id="in-filltimes" value="18, 17.5, 18.4" inputmode="decimal"><span>sec</span></span><small>Separate trial times with commas. Repeat at least three trials for a reliable average.</small></label>
+          </div>
+          <div class="formula-strip"><span>Formula</span><code>Q = volume &divide; time, averaged across trials</code></div>
+        </div>
+
+        <div id="panel-depth" role="tabpanel" hidden>
+          <div class="panel-heading"><span>02</span><div><h3>Applied irrigation depth</h3><p>Convert system flow and runtime to an average depth over the irrigated area.</p></div></div>
+          <div class="form-grid">
+            <label class="field"><span class="field-label">System flow</span><span class="input-shell"><input type="number" id="in-sysflow" min="0" step="any" value="620"><span id="suffix-sysflow">gpm</span></span></label>
+            <label class="field"><span class="field-label">Irrigated area</span><span class="input-shell"><input type="number" id="in-area" min="0" step="any" value="18"><span id="suffix-area">ac</span></span></label>
+            <label class="field"><span class="field-label">Runtime</span><span class="input-shell"><input type="number" id="in-runtime" min="0" step="any" value="8"><span>hr</span></span></label>
+            <label class="field"><span class="field-label">Application efficiency</span><span class="input-shell"><input type="number" id="in-eff" min="1" max="100" step="any" value="82"><span>%</span></span><small>Use a measured value when available.</small></label>
+          </div>
+          <div class="formula-strip"><span>Method</span><code>depth = applied volume &divide; irrigated area</code></div>
+        </div>
+
+        <div id="panel-uniformity" role="tabpanel" hidden>
+          <div class="panel-heading"><span>03</span><div><h3>Catch-can uniformity</h3><p>Paste catch depths to calculate low-quarter distribution uniformity and Christiansen CU.</p></div></div>
+          <label class="field full-field"><span class="field-label">Catch-can observations</span><textarea id="in-catches" rows="4">18, 21, 17, 22, 20, 16, 23, 19, 21, 18, 20, 17</textarea><small>Separate values with commas, spaces, or line breaks. Keep all observations in the same unit.</small></label>
+          <div class="mini-chart" id="catch-chart" aria-label="Catch-can observations chart"></div>
+          <div class="formula-strip"><span>Formula</span><code>DU<sub>lq</sub> = low-quarter mean &divide; overall mean</code></div>
+        </div>
+
+        <div id="panel-soil" role="tabpanel" hidden>
+          <div class="panel-heading"><span>04</span><div><h3>Root-zone soil-water deficit</h3><p>Estimate the refill needed to return the active root zone to field capacity.</p></div></div>
+          <div class="form-grid">
+            <label class="field full-field"><span class="field-label">Texture preset</span><span class="input-shell"><select id="in-soiltype" onchange="applySoilPreset()"><option value="sand">Sand</option><option value="loam" selected>Loam</option><option value="clayLoam">Clay loam</option></select></span></label>
+            <label class="field"><span class="field-label">Field capacity</span><span class="input-shell"><input type="number" id="in-fc" min="0" step="any" value="27"><span>% VWC</span></span></label>
+            <label class="field"><span class="field-label">Wilting point</span><span class="input-shell"><input type="number" id="in-wp" min="0" step="any" value="12"><span>% VWC</span></span></label>
+            <label class="field"><span class="field-label">Current water content</span><span class="input-shell"><input type="number" id="in-vwc" min="0" step="any" value="19"><span>% VWC</span></span></label>
+            <label class="field"><span class="field-label">Active root depth</span><span class="input-shell"><input type="number" id="in-rootdepth" min="0" step="any" value="24"><span id="suffix-rootdepth">in</span></span></label>
+            <label class="field"><span class="field-label">Application efficiency</span><span class="input-shell"><input type="number" id="in-soileff" min="1" max="100" step="any" value="85"><span>%</span></span></label>
+          </div>
+          <div class="formula-strip"><span>Formula</span><code>deficit = (&theta;<sub>fc</sub> &minus; &theta;<sub>v</sub>) &times; root depth</code></div>
+        </div>
+
+      </div>
+
+      <aside class="results-panel" aria-live="polite">
+        <p class="results-eyebrow">Calculated result</p>
+        <div id="results"></div>
+        <p class="results-note">Results update as you type</p>
+      </aside>
+    </div>
+  </div></section>
+
+  <hr class="divider">
+
+  <!-- ── FIELD GUIDE ── -->
+  <section class="section section-alt"><div class="container">
+    <p class="section-label">Field Guide</p>
+    <h2 class="section-title">Measure with a method, not a guess</h2>
+    <p class="section-desc">Good calculations begin with representative observations. Use these short protocols to prepare, measure, and document each field test.</p>
+    <div class="guide-grid" id="guide-grid"></div>
+  </div></section>
+
+  <hr class="divider">
+
+  <!-- ── MEASUREMENT QUALITY ── -->
+  <section class="section"><div class="container">
+    <p class="section-label">Measurement Quality</p>
+    <h2 class="section-title">Three habits improve every result</h2>
+    <div class="habits-grid">
+      <article><span>01</span><h3>Repeat</h3><p>Collect replicates across representative operating conditions, not just the easiest point to access.</p></article>
+      <article><span>02</span><h3>Record</h3><p>Note pressure, wind, runtime, set area, sensor depth, and unusual field conditions with the measurement.</p></article>
+      <article><span>03</span><h3>Compare</h3><p>Compare measured performance with design values, prior tests, and crop or soil-water requirements.</p></article>
+    </div>
+  </div></section>
+
+  <hr class="divider">
+
+  <!-- ── CONVERSIONS ── -->
+  <section class="section section-alt"><div class="container">
+    <p class="section-label">Quick Reference</p>
+    <h2 class="section-title">Conversions worth keeping close</h2>
+    <p class="section-desc">Use these identities to check units before the result reaches an irrigation schedule.</p>
+    <div class="conversion-list">
+      <div><span>1 acre-inch</span><strong>27,154</strong><small>US gallons</small></div>
+      <div><span>1 cubic foot/sec</span><strong>448.8</strong><small>US gpm</small></div>
+      <div><span>1 US gpm</span><strong>0.0631</strong><small>liters/sec</small></div>
+      <div><span>1 inch</span><strong>25.4</strong><small>millimeters</small></div>
+    </div>
+  </div></section>
+
+  <hr class="divider">
+
+  <!-- ── REFERENCES ── -->
+  <section class="section"><div class="container">
+    <p class="section-label">Technical Foundation</p>
+    <h2 class="section-title">References and further reading</h2>
+    <ol class="ref-list">
+      <li><p>Allen, R. G., Pereira, L. S., Raes, D., &amp; Smith, M. (1998). Crop evapotranspiration: Guidelines for computing crop water requirements. FAO Irrigation and Drainage Paper 56.</p><a href="https://www.fao.org/4/x0490e/x0490e00.htm" target="_blank" rel="noreferrer">FAO publication &nearr;</a></li>
+      <li><p>Burt, C. M., Clemmens, A. J., Strelkoff, T. S., Solomon, K. H., Bliesner, R. D., Hardy, L. A., Howell, T. A., &amp; Eisenhauer, D. E. (1997). Irrigation performance measures: Efficiency and uniformity. Journal of Irrigation and Drainage Engineering, 123(6), 423-442.</p><a href="https://doi.org/10.1061/(ASCE)0733-9437(1997)123:6(423)" target="_blank" rel="noreferrer">Journal article &nearr;</a></li>
+      <li><p>Christiansen, J. E. (1942). Irrigation by sprinkling. California Agricultural Experiment Station Bulletin 670, University of California, Berkeley.</p><a href="https://archive.org/details/irrigationbyspri670chri" target="_blank" rel="noreferrer">Digital copy &nearr;</a></li>
+      <li><p>Merriam, J. L., &amp; Keller, J. (1978). Farm irrigation system evaluation: A guide for management. Utah State University.</p><a href="https://digitalcommons.usu.edu/cee_facpub/3779/" target="_blank" rel="noreferrer">USU record &nearr;</a></li>
+      <li><p>Oregon State University Extension Service. Efficient irrigation of perennial forages with wheel lines in the Pacific Northwest (EM 9399). Authors: I. McGregor, M. I. Zamora Re, G. B. Jones, and T. Peters.</p><a href="https://extension.oregonstate.edu/catalog/em-9399-efficient-irrigation-perennial-forages-wheel-lines-pacific-northwest" target="_blank" rel="noreferrer">OSU Extension &nearr;</a></li>
+      <li><p>USDA Natural Resources Conservation Service. (1997). National Engineering Handbook, Part 623, Chapter 9: Water Measurement.</p><a href="https://www.wcc.nrcs.usda.gov/ftpref/wntsc/waterMgt/irrigation/NEH15/ch9.pdf" target="_blank" rel="noreferrer">NRCS handbook &nearr;</a></li>
+      <li><p>USDA Natural Resources Conservation Service. (1997). National Engineering Handbook, Part 652: Irrigation Guide.</p><a href="https://www.nrcs.usda.gov/sites/default/files/2022-11/WA-Irrigation-Guide_4.pdf" target="_blank" rel="noreferrer">NRCS guide &nearr;</a></li>
+      <li><p>U.S. Department of the Interior, Bureau of Reclamation. (2001). Water Measurement Manual (3rd ed., revised reprint).</p><a href="https://www.usbr.gov/tsc/techreferences/mands/wmm/WMM_3rd_2001.pdf" target="_blank" rel="noreferrer">USBR manual &nearr;</a></li>
+    </ol>
+    <div class="ref-download">
+      <a class="btn btn-primary" href="/files/irrigation-measurement-field-guide.pdf" download>Download the field guide (PDF) &darr;</a>
+      <button class="btn btn-outline" onclick="window.print()">Print this page</button>
+    </div>
+
+    <div class="caution-band">
+      <strong>Use results with context.</strong>
+      <p>These calculators support field measurements and learning. Verify measurements, assumptions, system limits, and crop requirements before making operational decisions. For questions, contact the AHGRI Lab at <a href="mailto:floyid.nicolas@oregonstate.edu">floyid.nicolas@oregonstate.edu</a>.</p>
+    </div>
+  </div></section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <img src="/images/logo-footer.png" alt="AHGRI Lab" class="footer-logo">
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/osuagrohydrology-lab/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61591768701900" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898v-2.89h2.54V9.797c0-2.507 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+          </a>
+          <a href="#" target="_blank" aria-label="Instagram" title="Coming soon">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="#" target="_blank" aria-label="X" title="Coming soon">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" target="_blank" aria-label="TikTok" title="Coming soon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col footer-contact">
+        <p class="footer-name"> Floyid Nicolas, Ph.D.</p>
+        <p class="footer-title-lines">Assistant Professor in Agricultural Water Management</p>
+        <p class="footer-title-lines"><a href="https://bee.oregonstate.edu/">Department of Biological &amp; Ecological Engineering</a></p>
+        <p class="footer-title-lines"><a href="https://oregonstate.edu">Oregon State University (OSU)</a></p>
+      </div>
+
+      <div class="footer-col footer-contact">
+        <p class="footer-contact-row"><span class="fc-icon">&#9993;</span> <a href="mailto:floyid.nicolas@oregonstate.edu">floyid.nicolas@oregonstate.edu</a></p>
+        <p class="footer-contact-row"><span class="fc-icon">&#9679;</span> <span class="fc-address"><a class="fc-block" href="https://agsci.oregonstate.edu/coarec">Central Oregon Agricultural Research &amp; Extension Center</a><span class="fc-block">850 NW Dogwood Lane</span><span class="fc-block">Madras, OR 97741</span></span></p>
+        <p class="footer-contact-row"><span class="fc-icon">&#9742;</span> <a href="tel:5414757107">(541) 475-7107</a></p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Nav</h4>
+        <a href="/index.html">Home</a>
+        <a href="/pages/projects.html">Research Projects</a>
+        <a href="/pages/people.html">People</a>
+        <a href="/pages/publications.html">Publications</a>
+        <a href="/pages/teaching.html">Teaching</a>
+        <a href="/pages/data.html">Data &amp; Software</a>
+        <a href="/pages/grants.html">Grants</a>
+        <a href="/pages/galleries.html">Galleries</a>
+        <a href="/pages/news.html">News</a>
+        <a href="/pages/contact.html">Contact</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="https://bee.oregonstate.edu/users/floyid-nicolas" target="_blank">OSU Faculty Profile</a>
+        <a href="https://scholar.google.com/citations?user=Qhddsw8AAAAJ" target="_blank">Google Scholar</a>
+        <a href="https://www.researchgate.net/profile/Floyid-Nicolas" target="_blank">ResearchGate</a>
+        <a href="mailto:floyid.nicolas@oregonstate.edu">floyid.nicolas@oregonstate.edu</a>
+        <a href="tel:5414757107">(541) 475-7107</a>
+        <a href="https://bee.oregonstate.edu/" target="_blank">BEE Department, OSU</a>
+      </div>
+
+    </div>
+<div class="footer-bottom">
+      <span style="color: #fff;">Copyright &copy; Agrohydrology Research and Innovation Lab. All Rights Reserved. &nbsp;|&nbsp; <a href="/pages/privacy.html" style="color: #fff;">Privacy Policy</a> &nbsp;|&nbsp; <a href="/pages/terms.html" style="color: #fff;">Terms of Service</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('nav-links').classList.toggle('open');
+  });
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   Irrigation Measurement Calculators - AHGRI Lab
+   All logic runs in the browser. No build step, no dependencies.
+   ══════════════════════════════════════════════════════════════ */
+
+let units = 'us';          // 'us' or 'metric'
+let activeTool = 'flow';   // 'flow' | 'depth' | 'uniformity' | 'soil'
+
+const soilPresets = {
+  sand:     { name: 'Sand',      fieldCapacity: 12, wiltingPoint: 5 },
+  loam:     { name: 'Loam',      fieldCapacity: 27, wiltingPoint: 12 },
+  clayLoam: { name: 'Clay loam', fieldCapacity: 34, wiltingPoint: 18 }
+};
+
+const fieldGuides = [
+  { id: 'flow', number: '01', title: 'Timed volume', bestFor: 'Outlets, emitters, and small pipe discharge', kit: 'Calibrated container &middot; stopwatch &middot; field sheet', steps: ['Choose a safe collection point with steady flow.', 'Time a complete fill without estimating partial seconds.', 'Repeat at least three times and average the discharge.'] },
+  { id: 'depth', number: '02', title: 'Flow &times; runtime', bestFor: 'Average depth applied over a known field area', kit: 'Flow measurement &middot; runtime record &middot; field area', steps: ['Confirm the flow represents the entire operating set.', 'Use the actual wetted area, not the parcel area.', 'Report gross depth and document the efficiency assumption.'] },
+  { id: 'uniformity', number: '03', title: 'Catch-can test', bestFor: 'Sprinkler distribution and low-quarter performance', kit: 'Matched cans &middot; ruler &middot; flags &middot; wind reading', steps: ['Place identical cans on a regular grid before startup.', 'Run long enough to obtain clearly measurable depths.', 'Flag plugged nozzles, wind shifts, or spills in the record.'] },
+  { id: 'soil', number: '04', title: 'Root-zone deficit', bestFor: 'Scheduling a refill from volumetric water content', kit: 'Calibrated sensor &middot; root-depth estimate &middot; soil limits', steps: ['Sample more than one location and depth.', 'Use site-specific field capacity when available.', 'Limit refill to the active root zone and system capacity.'] }
+];
+
+const num = (id) => Number(document.getElementById(id).value) || 0;
+
+/* ── Calculations ── */
+
+function calcFlow() {
+  const volume = Math.max(num('in-volume'), 0);
+  const times = document.getElementById('in-filltimes').value
+    .split(/[\s,;]+/).map(Number).filter(t => Number.isFinite(t) && t > 0);
+  if (!times.length || volume <= 0) return { trials: times.length, primary: 0, secondary: 0 };
+  // Average the per-trial discharges
+  const meanQ = times.reduce((sum, t) => sum + volume / t, 0) / times.length;
+  if (units === 'us') {
+    const gpm = meanQ * 60;
+    return { trials: times.length, primary: gpm, primaryUnit: 'gpm', secondary: gpm * 0.0630902, secondaryUnit: 'L/s' };
+  }
+  return { trials: times.length, primary: meanQ, primaryUnit: 'L/s', secondary: meanQ * 15.8503, secondaryUnit: 'gpm' };
+}
+
+function calcDepth() {
+  const flow = num('in-sysflow'), area = Math.max(num('in-area'), 0.001), runtime = num('in-runtime');
+  const eff = Math.min(Math.max(num('in-eff'), 0), 100) / 100;
+  if (units === 'us') {
+    const gallons = flow * runtime * 60;                 // gpm * hr * 60 min
+    const gross = gallons / (area * 27154);              // 27,154 gal per acre-inch
+    return { volume: gallons / 1000, volumeUnit: 'thousand gal', gross, net: gross * eff, depthUnit: 'in', effPct: eff * 100 };
+  }
+  const m3 = flow * runtime * 3.6;                       // L/s * hr * 3.6
+  const gross = m3 / (area * 10);                        // 10 m3 per mm-ha
+  return { volume: m3, volumeUnit: 'm\u00B3', gross, net: gross * eff, depthUnit: 'mm', effPct: eff * 100 };
+}
+
+function calcUniformity() {
+  const values = document.getElementById('in-catches').value
+    .split(/[\s,;]+/).map(Number).filter(v => Number.isFinite(v) && v >= 0);
+  if (!values.length) return { values: [], average: 0, du: 0, cu: 0 };
+  const average = values.reduce((s, v) => s + v, 0) / values.length;
+  const sorted = [...values].sort((a, b) => a - b);
+  const lowCount = Math.max(1, Math.floor(values.length / 4));
+  const lowQuarter = sorted.slice(0, lowCount).reduce((s, v) => s + v, 0) / lowCount;
+  const meanDev = values.reduce((s, v) => s + Math.abs(v - average), 0) / values.length;
+  return {
+    values, average,
+    du: average > 0 ? (lowQuarter / average) * 100 : 0,
+    cu: average > 0 ? (1 - meanDev / average) * 100 : 0
+  };
+}
+
+function calcSoil() {
+  const fc = num('in-fc'), wp = num('in-wp'), vwc = num('in-vwc');
+  const rootDepth = num('in-rootdepth');
+  const eff = Math.max(num('in-soileff') / 100, 0.01);
+  const depthIn = units === 'us' ? rootDepth : rootDepth / 2.54;   // cm to inches when metric
+  const target = Math.max(fc - vwc, 0) / 100;
+  const available = Math.max(fc - wp, 0) / 100;
+  const deficitIn = target * depthIn;
+  const grossIn = deficitIn / eff;
+  const depletion = available > 0 ? Math.min(Math.max((fc - vwc) / (fc - wp), 0), 1) * 100 : 0;
+  return {
+    net:   units === 'us' ? deficitIn : deficitIn * 25.4,
+    gross: units === 'us' ? grossIn   : grossIn * 25.4,
+    depletion,
+    unit: units === 'us' ? 'in' : 'mm'
+  };
+}
+
+/* ── Rendering ── */
+
+function metricHTML(label, value, unit, primary) {
+  return '<div class="metric' + (primary ? ' primary' : '') + '"><span>' + label + '</span><strong>' + value + '</strong><small>' + unit + '</small></div>';
+}
+
+function render() {
+  const box = document.getElementById('results');
+  if (activeTool === 'flow') {
+    const f = calcFlow();
+    box.innerHTML =
+      metricHTML('Estimated discharge', f.primary.toFixed(2), f.primaryUnit || (units === 'us' ? 'gpm' : 'L/s'), true) +
+      metricHTML('Converted flow', f.secondary.toFixed(2), f.secondaryUnit || (units === 'us' ? 'L/s' : 'gpm'), false) +
+      '<p class="interpretation">&#10003; Average of ' + f.trials + ' trial' + (f.trials === 1 ? '' : 's') + '. Use at least three replicate fills for scheduling.</p>';
+  } else if (activeTool === 'depth') {
+    const d = calcDepth();
+    box.innerHTML =
+      metricHTML('Net applied depth', d.net.toFixed(2), d.depthUnit, true) +
+      '<div class="metric-pair">' + metricHTML('Gross depth', d.gross.toFixed(2), d.depthUnit, false) + metricHTML('Applied volume', d.volume.toFixed(1), d.volumeUnit, false) + '</div>' +
+      '<p class="interpretation">&#8505; Net depth accounts for ' + d.effPct.toFixed(0) + '% application efficiency.</p>';
+  } else if (activeTool === 'uniformity') {
+    const u = calcUniformity();
+    box.innerHTML =
+      metricHTML('Low-quarter DU', u.du.toFixed(0), '%', true) +
+      '<div class="metric-pair">' + metricHTML('Christiansen CU', u.cu.toFixed(0), '%', false) + metricHTML('Mean catch', u.average.toFixed(1), 'depth units', false) + '</div>' +
+      '<p class="interpretation">&#8505; Based on ' + u.values.length + ' valid catch observations.</p>';
+    renderChart(u.values);
+  } else {
+    const s = calcSoil();
+    box.innerHTML =
+      metricHTML('Gross refill depth', s.gross.toFixed(2), s.unit, true) +
+      '<div class="metric-pair">' + metricHTML('Net deficit', s.net.toFixed(2), s.unit, false) + metricHTML('Available water depleted', s.depletion.toFixed(0), '%', false) + '</div>' +
+      '<p class="interpretation">&#33; Texture presets are starting values. Calibrate with field measurements.</p>';
+  }
+}
+
+function renderChart(values) {
+  const chart = document.getElementById('catch-chart');
+  if (!values.length) { chart.innerHTML = ''; return; }
+  const maximum = Math.max(...values, 1);
+  chart.innerHTML = values.map((v, i) =>
+    '<span style="height:' + Math.max((v / maximum) * 100, 4) + '%" title="Catch ' + (i + 1) + ': ' + v + '"></span>'
+  ).join('');
+}
+
+/* ── Interaction ── */
+
+function switchTool(tool) {
+  activeTool = tool;
+  ['flow', 'depth', 'uniformity', 'soil'].forEach(id => {
+    const tab = document.getElementById('tab-' + id);
+    tab.classList.toggle('active', id === tool);
+    tab.setAttribute('aria-selected', id === tool);
+    document.getElementById('panel-' + id).hidden = id !== tool;
+  });
+  render();
+}
+
+function switchUnits(next) {
+  if (next === units) return;
+  const set = (id, v) => { document.getElementById(id).value = Number(v.toFixed(2)); };
+  if (next === 'metric') {
+    set('in-volume', num('in-volume') * 3.78541);     // gal to L
+    set('in-sysflow', num('in-sysflow') * 0.0630902); // gpm to L/s
+    set('in-area', num('in-area') * 0.404686);        // ac to ha
+    set('in-rootdepth', num('in-rootdepth') * 2.54);  // in to cm
+  } else {
+    set('in-volume', num('in-volume') / 3.78541);
+    set('in-sysflow', num('in-sysflow') / 0.0630902);
+    set('in-area', num('in-area') / 0.404686);
+    set('in-rootdepth', num('in-rootdepth') / 2.54);
+  }
+  units = next;
+  document.getElementById('unit-us').classList.toggle('active', units === 'us');
+  document.getElementById('unit-us').setAttribute('aria-pressed', units === 'us');
+  document.getElementById('unit-metric').classList.toggle('active', units === 'metric');
+  document.getElementById('unit-metric').setAttribute('aria-pressed', units === 'metric');
+  document.getElementById('suffix-volume').textContent = units === 'us' ? 'gal' : 'L';
+  document.getElementById('suffix-sysflow').textContent = units === 'us' ? 'gpm' : 'L/s';
+  document.getElementById('suffix-area').textContent = units === 'us' ? 'ac' : 'ha';
+  document.getElementById('suffix-rootdepth').textContent = units === 'us' ? 'in' : 'cm';
+  render();
+}
+
+function applySoilPreset() {
+  const preset = soilPresets[document.getElementById('in-soiltype').value];
+  document.getElementById('in-fc').value = preset.fieldCapacity;
+  document.getElementById('in-wp').value = preset.wiltingPoint;
+  render();
+}
+
+/* Field guide accordion */
+let openGuide = 'flow';
+function renderGuides() {
+  document.getElementById('guide-grid').innerHTML = fieldGuides.map(g => {
+    const open = g.id === openGuide;
+    return '<article class="guide-card">' +
+      '<button onclick="toggleGuide(\'' + g.id + '\')" aria-expanded="' + open + '">' +
+        '<span class="guide-number">' + g.number + '</span>' +
+        '<span><small>' + g.bestFor + '</small><strong>' + g.title + '</strong></span>' +
+        '<i aria-hidden="true">' + (open ? '&minus;' : '+') + '</i>' +
+      '</button>' +
+      (open ? '<div class="guide-content"><p class="kit-label">Field kit</p><p class="kit-list">' + g.kit + '</p><ol>' +
+        g.steps.map(s => '<li>' + s + '</li>').join('') +
+        '</ol><button class="use-method" onclick="useMethod(\'' + g.id + '\')">Use this method &nearr;</button></div>' : '') +
+    '</article>';
+  }).join('');
+}
+function toggleGuide(id) { openGuide = openGuide === id ? null : id; renderGuides(); }
+function useMethod(id) { switchTool(id); document.querySelector('.calc-shell').scrollIntoView({ behavior: 'smooth' }); }
+
+/* Recalculate on any input */
+document.querySelectorAll('.calc-form input, .calc-form textarea, .calc-form select')
+  .forEach(el => el.addEventListener('input', render));
+
+renderGuides();
+render();
+</script>
+</body>
+</html>
