@@ -109,6 +109,20 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   .guide-grid, .habits-grid { grid-template-columns: 1fr; }
   .conversion-list { grid-template-columns: 1fr 1fr; }
 }
+/* Use the full available width */
+main > .section:first-of-type .page-title,
+main > .section:first-of-type .section-desc {
+  max-width: 100%;
+  width: 100%;
+}
+/* Reduce vertical space */
+main > .section:first-of-type {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+main > .section:first-of-type .section-desc {
+  margin-bottom: 1.25rem;
+}
 </style>
 </head>
 <body>
@@ -140,7 +154,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   <section class="section"><div class="container">
     <div class="calc-intro">
       <div>
-        <p class="section-label">AHGRI Lab Field Tool</p>
         <h1 class="page-title">Irrigation measurement calculators</h1>
         <p class="section-desc">Interactive calculators for pump discharge, applied depth, catch-can uniformity and root-zone soil-water deficit. Each calculator shows the formula behind the result so field measurements become irrigation-ready numbers.</p>
         <h2 class="section-title">Measure water. Manage every drop.</h2>
@@ -215,7 +228,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
   <!-- ── FIELD GUIDE ── -->
   <section class="section section-alt"><div class="container">
-    <p class="section-label">Field Guide</p>
     <h2 class="section-title">Measure with a method, not a guess</h2>
     <p class="section-desc">Good calculations begin with representative observations. Use these short protocols to prepare, measure, and document each field test.</p>
     <div class="guide-grid" id="guide-grid"></div>
@@ -225,7 +237,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
   <!-- ── MEASUREMENT QUALITY ── -->
   <section class="section"><div class="container">
-    <p class="section-label">Measurement Quality</p>
     <h2 class="section-title">Three habits improve every result</h2>
     <div class="habits-grid">
       <article><span>01</span><h3>Repeat</h3><p>Collect replicates across representative operating conditions, not just the easiest point to access.</p></article>
@@ -238,7 +249,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
   <!-- ── CONVERSIONS ── -->
   <section class="section section-alt"><div class="container">
-    <p class="section-label">Quick Reference</p>
     <h2 class="section-title">Conversions worth keeping close</h2>
     <p class="section-desc">Use these identities to check units before the result reaches an irrigation schedule.</p>
     <div class="conversion-list">
@@ -253,7 +263,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
   <!-- ── REFERENCES ── -->
   <section class="section"><div class="container">
-    <p class="section-label">Technical Foundation</p>
     <h2 class="section-title">References and further reading</h2>
     <ol class="ref-list">
       <li><p>Allen, R. G., Pereira, L. S., Raes, D., &amp; Smith, M. (1998). Crop evapotranspiration: Guidelines for computing crop water requirements. FAO Irrigation and Drainage Paper 56.</p><a href="https://www.fao.org/4/x0490e/x0490e00.htm" target="_blank" rel="noreferrer">FAO publication &nearr;</a></li>
