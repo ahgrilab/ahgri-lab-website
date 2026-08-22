@@ -96,6 +96,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   .quick-grid, .method-steps { grid-template-columns: 1fr; }
   .tools-grid { grid-template-columns: 1fr; }
 }
+/* Use the full available width */
+main > .section:first-of-type .page-title,
+main > .section:first-of-type .section-desc {
+  max-width: 100%;
+  width: 100%;
+}
 </style>
 </head>
 <body>
@@ -125,7 +131,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
   <!-- ── QUICK PICKS ── -->
   <section class="section"><div class="container">
-    <p class="section-label">Oregon Grower Resource</p>
     <h1 class="page-title">Irrigation scheduling tools for Oregon growers</h1>
     <p class="section-desc">This dashboard brings together irrigation scheduling tools available to Oregon growers. Each listing explains the tool’s purpose, available information, access options and key considerations for use.</p>
     <h2 class="section-title">Start with the decision you need to make</h2>
@@ -137,7 +142,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
   <!-- ── TOOL FINDER ── -->
   <section class="section section-alt"><div class="container">
-    <p class="section-label">Updateable Directory</p>
     <h2 class="section-title">Compare tools and resources available to Oregon growers</h2>
     <p class="section-desc">Entries are grouped by function so users can distinguish a complete scheduling tool from a data viewer, calculator or supporting guide.</p>
 
@@ -162,7 +166,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
   <!-- ── 3-CHECK METHOD ── -->
   <section class="section"><div class="container">
-    <p class="section-label">A Durable Way to Use Any Tool</p>
     <h2 class="section-title">The 3-check method</h2>
     <p class="section-desc">Irrigation decisions are stronger when climate estimates, soil information and field observations tell a consistent story. When the three checks do not align, review the inputs, measurements and field conditions before changing the schedule.</p>
     <div class="method-steps">
@@ -183,7 +186,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   <section class="section section-alt"><div class="container">
     <div class="handout-flex">
       <div class="handout-copy">
-        <p class="section-label">Print-Ready Field Reference</p>
         <h2 class="section-title">Take the ET guide into the field</h2>
         <p class="section-desc" style="margin-bottom:0.75rem;">This two-page letter-size handout explains reference, crop and actual ET; shows a transparent root-zone water balance; and pairs each data source with the decision it can support.</p>
         <ul>
@@ -209,7 +211,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
   <!-- ── SOURCES ── -->
   <section class="section"><div class="container">
-    <p class="section-label">Verification and Scope</p>
     <h2 class="section-title">Primary sources used for verification</h2>
     <div class="source-list">
       <ul>
