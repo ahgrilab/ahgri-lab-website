@@ -10,95 +10,97 @@
 
 <style>
 /* ── Page-specific styles: Irrigation Calculators ── */
+.page-title { font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.08; color: #000; max-width: 900px; margin-bottom: 1rem; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
 .calc-intro { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 2rem; }
 .calc-intro .section-desc { margin-bottom: 0; }
 
 .unit-toggle { display: inline-flex; border: 1.5px solid var(--light-gray); border-radius: 6px; overflow: hidden; background: var(--white); }
-.unit-toggle button { border: none; background: transparent; padding: 0.55rem 1.2rem; font-family: var(--sans); font-size: 0.82rem; font-weight: 600; color: var(--gray); cursor: pointer; transition: all 0.15s; }
+.unit-toggle button { border: none; background: transparent; padding: 0.6rem 1.25rem; font-family: var(--sans); font-size: 0.95rem; font-weight: 600; color: var(--gray); cursor: pointer; transition: all 0.15s; }
 .unit-toggle button.active { background: var(--orange); color: var(--white); }
 
 .tool-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
 .tool-tabs button { display: flex; align-items: center; gap: 0.75rem; text-align: left; border: 1.5px solid var(--light-gray); border-radius: var(--radius); background: var(--white); padding: 0.85rem 1rem; cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
 .tool-tabs button:hover { border-color: var(--orange); }
 .tool-tabs button.active { border-color: var(--orange); background: var(--orange-pale); }
-.tool-tabs .tab-mark { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--orange); min-width: 2rem; }
-.tool-tabs small { display: block; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); }
-.tool-tabs strong { font-size: 0.88rem; color: var(--black); }
+.tool-tabs .tab-mark { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--orange); min-width: 2rem; }
+.tool-tabs small { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); }
+.tool-tabs strong { font-size: 1rem; color: var(--black); }
 
 .calc-shell { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.25rem; align-items: start; }
 .calc-form { background: var(--white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.75rem; }
 .panel-heading { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
-.panel-heading h3 { font-family: var(--serif); font-size: 1.15rem; color: var(--black); margin-bottom: 0.25rem; }
-.panel-heading p { font-size: 0.85rem; color: var(--gray); line-height: 1.6; }
+.panel-heading h3 { font-family: var(--serif); font-size: 1.35rem; color: var(--black); margin-bottom: 0.25rem; }
+.panel-heading p { font-size: 1rem; color: var(--gray); line-height: 1.6; }
 .panel-heading > span { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--orange); border: 1.5px solid var(--orange); border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
 .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
 .field { display: block; }
-.field-label { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); margin-bottom: 0.4rem; }
+.field-label { display: block; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); margin-bottom: 0.4rem; }
 .input-shell { display: flex; align-items: stretch; border: 1.5px solid var(--light-gray); border-radius: 6px; overflow: hidden; background: var(--white); }
 .input-shell:focus-within { border-color: var(--orange); }
-.input-shell input, .input-shell textarea, .input-shell select { flex: 1; border: none; outline: none; padding: 0.6rem 0.75rem; font-family: var(--sans); font-size: 0.95rem; color: var(--black); min-width: 0; background: transparent; }
-.input-shell > span { display: flex; align-items: center; padding: 0 0.75rem; background: var(--off-white); font-size: 0.75rem; font-weight: 600; color: var(--gray); border-left: 1px solid var(--light-gray); white-space: nowrap; }
-.field small { display: block; font-size: 0.72rem; color: var(--gray); margin-top: 0.35rem; line-height: 1.5; }
+.input-shell input, .input-shell textarea, .input-shell select { flex: 1; border: none; outline: none; padding: 0.7rem 0.8rem; font-family: var(--sans); font-size: 1rem; color: var(--black); min-width: 0; background: transparent; }
+.input-shell > span { display: flex; align-items: center; padding: 0 0.75rem; background: var(--off-white); font-size: 0.85rem; font-weight: 600; color: var(--gray); border-left: 1px solid var(--light-gray); white-space: nowrap; }
+.field small { display: block; font-size: 0.85rem; color: var(--gray); margin-top: 0.35rem; line-height: 1.5; }
 .full-field { grid-column: 1 / -1; }
-.full-field textarea { width: 100%; border: 1.5px solid var(--light-gray); border-radius: 6px; padding: 0.6rem 0.75rem; font-family: var(--mono); font-size: 0.85rem; resize: vertical; }
+.full-field textarea { width: 100%; border: 1.5px solid var(--light-gray); border-radius: 6px; padding: 0.7rem 0.8rem; font-family: var(--mono); font-size: 0.95rem; resize: vertical; }
 .full-field textarea:focus { border-color: var(--orange); outline: none; }
 
 .formula-strip { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.5rem; padding: 0.75rem 1rem; background: var(--off-white); border-radius: 6px; }
-.formula-strip span { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); }
-.formula-strip code { font-family: var(--mono); font-size: 0.85rem; color: var(--black); }
+.formula-strip span { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); }
+.formula-strip code { font-family: var(--mono); font-size: 0.95rem; color: var(--black); }
 
 .mini-chart { display: flex; align-items: flex-end; gap: 3px; height: 70px; margin-top: 1rem; padding: 0.5rem; background: var(--off-white); border-radius: 6px; }
 .mini-chart span { flex: 1; background: var(--orange); border-radius: 2px 2px 0 0; min-height: 3px; opacity: 0.75; }
 
 .results-panel { background: var(--black); color: var(--white); border-radius: var(--radius); padding: 1.75rem; position: sticky; top: calc(var(--nav-h) + 1rem); }
-.results-eyebrow { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--orange); margin-bottom: 1rem; }
+.results-eyebrow { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--orange); margin-bottom: 1rem; }
 .metric { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.metric span { display: block; font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-bottom: 0.15rem; }
+.metric span { display: block; font-size: 0.85rem; color: rgba(255,255,255,0.75); margin-bottom: 0.15rem; }
 .metric strong { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; color: var(--white); margin-right: 0.35rem; }
 .metric.primary strong { font-size: 2.2rem; color: var(--orange-light); }
-.metric small { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+.metric small { font-size: 0.85rem; color: rgba(255,255,255,0.75); }
 .metric-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-.interpretation { font-size: 0.8rem; line-height: 1.6; color: rgba(255,255,255,0.65); margin-top: 1rem; }
-.results-note { font-size: 0.68rem; color: rgba(255,255,255,0.35); margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.interpretation { font-size: 0.95rem; line-height: 1.6; color: rgba(255,255,255,0.82); margin-top: 1rem; }
+.results-note { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
 
 .guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
 .guide-card { border: 1px solid var(--light-gray); border-radius: var(--radius); background: var(--white); overflow: hidden; }
 .guide-card > button { width: 100%; display: flex; align-items: center; gap: 1rem; border: none; background: transparent; padding: 1.1rem 1.25rem; cursor: pointer; font-family: var(--sans); text-align: left; }
-.guide-card .guide-number { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--orange); }
-.guide-card small { display: block; font-size: 0.7rem; color: var(--gray); }
-.guide-card strong { font-size: 0.95rem; color: var(--black); }
+.guide-card .guide-number { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; color: var(--orange); }
+.guide-card small { display: block; font-size: 0.85rem; color: var(--gray); }
+.guide-card strong { font-size: 1.05rem; color: var(--black); }
 .guide-card i { margin-left: auto; font-style: normal; font-size: 1.2rem; color: var(--orange); }
 .guide-content { padding: 0 1.25rem 1.25rem 3.4rem; }
-.kit-label { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--orange); margin-bottom: 0.25rem; }
-.kit-list { font-size: 0.82rem; color: var(--mid); margin-bottom: 0.75rem; }
+.kit-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--orange); margin-bottom: 0.25rem; }
+.kit-list { font-size: 0.95rem; color: var(--mid); margin-bottom: 0.75rem; }
 .guide-content ol { padding-left: 1.1rem; }
-.guide-content li { font-size: 0.85rem; color: var(--dark); line-height: 1.65; margin-bottom: 0.35rem; }
-.use-method { margin-top: 0.75rem; border: none; background: var(--orange-pale); color: var(--orange); font-family: var(--sans); font-size: 0.78rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+.guide-content li { font-size: 1rem; color: var(--dark); line-height: 1.65; margin-bottom: 0.35rem; }
+.use-method { margin-top: 0.75rem; border: none; background: var(--orange-pale); color: var(--orange); font-family: var(--sans); font-size: 0.9rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
 .use-method:hover { background: var(--orange); color: var(--white); }
 
 .habits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2rem; }
 .habits-grid article { background: var(--white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.5rem; }
-.habits-grid article > span { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); }
-.habits-grid h3 { font-family: var(--serif); font-size: 1.05rem; color: var(--black); margin: 0.5rem 0 0.4rem; }
-.habits-grid p { font-size: 0.85rem; color: var(--gray); line-height: 1.7; }
+.habits-grid article > span { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; color: var(--orange); }
+.habits-grid h3 { font-family: var(--serif); font-size: 1.25rem; color: var(--black); margin: 0.5rem 0 0.4rem; }
+.habits-grid p { font-size: 1rem; color: var(--gray); line-height: 1.7; }
 
 .conversion-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem; }
 .conversion-list > div { background: var(--white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.25rem; text-align: center; }
-.conversion-list span { display: block; font-size: 0.72rem; color: var(--gray); margin-bottom: 0.35rem; }
+.conversion-list span { display: block; font-size: 0.85rem; color: var(--gray); margin-bottom: 0.35rem; }
 .conversion-list strong { display: block; font-family: var(--serif); font-size: 1.5rem; color: var(--orange); }
-.conversion-list small { font-size: 0.75rem; color: var(--mid); }
+.conversion-list small { font-size: 0.9rem; color: var(--mid); }
 
 .ref-list { list-style: none; counter-reset: ref; margin-top: 2rem; max-width: 900px; }
 .ref-list li { counter-increment: ref; display: flex; gap: 1rem; align-items: baseline; padding: 0.9rem 0; border-bottom: 1px solid var(--light-gray); }
-.ref-list li::before { content: counter(ref, decimal-leading-zero); font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); }
-.ref-list p { flex: 1; font-size: 0.83rem; color: var(--dark); line-height: 1.65; }
-.ref-list a { font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+.ref-list li::before { content: counter(ref, decimal-leading-zero); font-family: var(--mono); font-size: 0.85rem; font-weight: 700; color: var(--orange); }
+.ref-list p { flex: 1; font-size: 0.95rem; color: var(--dark); line-height: 1.65; }
+.ref-list a { font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
 .ref-download { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 
 .caution-band { background: var(--orange-pale); border-left: 4px solid var(--orange); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.25rem 1.5rem; margin-top: 2.5rem; }
-.caution-band strong { color: var(--orange-deep); font-size: 0.9rem; }
-.caution-band p { font-size: 0.85rem; color: var(--dark); line-height: 1.7; margin-top: 0.25rem; }
+.caution-band strong { color: var(--orange-deep); font-size: 1.05rem; }
+.caution-band p { font-size: 1rem; color: var(--dark); line-height: 1.7; margin-top: 0.25rem; }
 
 @media (max-width: 980px) {
   .tool-tabs { grid-template-columns: 1fr 1fr; }
@@ -126,7 +128,7 @@
     <li><a href="/pages/news.html">News</a></li>
     <li><a href="/pages/contact.html">Contact</a></li>
   </ul>
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+  <button class="nav-hamburger" id="hamburger" aria-label="Open navigation menu" aria-controls="nav-links" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -138,9 +140,10 @@
   <section class="section"><div class="container">
     <div class="calc-intro">
       <div>
-        <p class="section-label">Irrigation Measurement Calculators</p>
+        <p class="section-label">AHGRI Lab Field Tool</p>
+        <h1 class="page-title">Irrigation measurement calculators</h1>
+        <p class="section-desc">Interactive calculators for pump discharge, applied depth, catch-can uniformity and root-zone soil-water deficit. Each calculator shows the formula behind the result so field measurements become irrigation-ready numbers.</p>
         <h2 class="section-title">Measure water. Manage every drop.</h2>
-        <p class="section-desc">Turn field observations into irrigation-ready numbers. Choose a method, enter your measurements, and see the result with the formula behind it. A tool of the AHGRI Lab at Oregon State University.</p>
       </div>
       <div class="unit-toggle" role="group" aria-label="Unit system">
         <button id="unit-us" class="active" aria-pressed="true" onclick="switchUnits('us')">US units</button>
@@ -188,7 +191,7 @@
         <div id="panel-soil" role="tabpanel" hidden>
           <div class="panel-heading"><span>04</span><div><h3>Root-zone soil-water deficit</h3><p>Estimate the refill needed to return the active root zone to field capacity.</p></div></div>
           <div class="form-grid">
-            <label class="field full-field"><span class="field-label">Texture preset</span><span class="input-shell"><select id="in-soiltype" onchange="applySoilPreset()"><option value="sand">Sand</option><option value="loam" selected>Loam</option><option value="clayLoam">Clay loam</option></select></span></label>
+            <label class="field full-field"><span class="field-label">Texture preset</span><span class="input-shell"><select id="in-soiltype" onchange="applySoilPreset()"><option value="sand">Sand</option><option value="loamySand">Loamy sand</option><option value="sandyLoam">Sandy loam</option><option value="loam" selected>Loam</option><option value="siltLoam">Silt loam</option><option value="silt">Silt</option><option value="sandyClayLoam">Sandy clay loam</option><option value="clayLoam">Clay loam</option><option value="siltyClayLoam">Silty clay loam</option><option value="siltyClay">Silty clay</option><option value="clay">Clay</option></select></span><small>Typical values by USDA texture class (after FAO-56, Table 19). Use site-specific soil data when available.</small></label>
             <label class="field"><span class="field-label">Field capacity</span><span class="input-shell"><input type="number" id="in-fc" min="0" step="any" value="27"><span>% VWC</span></span></label>
             <label class="field"><span class="field-label">Wilting point</span><span class="input-shell"><input type="number" id="in-wp" min="0" step="any" value="12"><span>% VWC</span></span></label>
             <label class="field"><span class="field-label">Current water content</span><span class="input-shell"><input type="number" id="in-vwc" min="0" step="any" value="19"><span>% VWC</span></span></label>
@@ -328,12 +331,12 @@
 
       <div class="footer-col">
         <h4>Connect</h4>
-        <a href="https://bee.oregonstate.edu/users/floyid-nicolas" target="_blank">OSU Faculty Profile</a>
-        <a href="https://scholar.google.com/citations?user=Qhddsw8AAAAJ" target="_blank">Google Scholar</a>
-        <a href="https://www.researchgate.net/profile/Floyid-Nicolas" target="_blank">ResearchGate</a>
+        <a href="https://bee.oregonstate.edu/users/floyid-nicolas" target="_blank" rel="noopener noreferrer">OSU Faculty Profile</a>
+        <a href="https://scholar.google.com/citations?user=Qhddsw8AAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+        <a href="https://www.researchgate.net/profile/Floyid-Nicolas" target="_blank" rel="noopener noreferrer">ResearchGate</a>
         <a href="mailto:floyid.nicolas@oregonstate.edu">floyid.nicolas@oregonstate.edu</a>
         <a href="tel:5414757107">(541) 475-7107</a>
-        <a href="https://bee.oregonstate.edu/" target="_blank">BEE Department, OSU</a>
+        <a href="https://bee.oregonstate.edu/" target="_blank" rel="noopener noreferrer">BEE Department, OSU</a>
       </div>
 
     </div>
@@ -344,8 +347,11 @@
 </footer>
 
 <script>
-  document.getElementById('hamburger').addEventListener('click', () => {
-    document.getElementById('nav-links').classList.toggle('open');
+  document.getElementById('hamburger').addEventListener('click', (event) => {
+    const navLinks = document.getElementById('nav-links');
+    const isOpen = navLinks.classList.toggle('open');
+    event.currentTarget.setAttribute('aria-expanded', String(isOpen));
+    event.currentTarget.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
   });
 </script>
 
@@ -358,10 +364,21 @@
 let units = 'us';          // 'us' or 'metric'
 let activeTool = 'flow';   // 'flow' | 'depth' | 'uniformity' | 'soil'
 
+/* Typical volumetric water content (% VWC) by USDA texture class.
+   Midpoints of published ranges (FAO-56 Table 19; NRCS irrigation guides).
+   Screening values only - site-measured limits are always preferred. */
 const soilPresets = {
-  sand:     { name: 'Sand',      fieldCapacity: 12, wiltingPoint: 5 },
-  loam:     { name: 'Loam',      fieldCapacity: 27, wiltingPoint: 12 },
-  clayLoam: { name: 'Clay loam', fieldCapacity: 34, wiltingPoint: 18 }
+  sand:          { name: 'Sand',            fieldCapacity: 12, wiltingPoint: 5 },
+  loamySand:     { name: 'Loamy sand',      fieldCapacity: 15, wiltingPoint: 7 },
+  sandyLoam:     { name: 'Sandy loam',      fieldCapacity: 23, wiltingPoint: 11 },
+  loam:          { name: 'Loam',            fieldCapacity: 27, wiltingPoint: 12 },
+  siltLoam:      { name: 'Silt loam',       fieldCapacity: 29, wiltingPoint: 15 },
+  silt:          { name: 'Silt',            fieldCapacity: 32, wiltingPoint: 17 },
+  sandyClayLoam: { name: 'Sandy clay loam', fieldCapacity: 27, wiltingPoint: 17 },
+  clayLoam:      { name: 'Clay loam',       fieldCapacity: 34, wiltingPoint: 18 },
+  siltyClayLoam: { name: 'Silty clay loam', fieldCapacity: 36, wiltingPoint: 21 },
+  siltyClay:     { name: 'Silty clay',      fieldCapacity: 38, wiltingPoint: 24 },
+  clay:          { name: 'Clay',            fieldCapacity: 40, wiltingPoint: 27 }
 };
 
 const fieldGuides = [

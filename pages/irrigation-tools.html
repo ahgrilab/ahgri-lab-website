@@ -10,77 +10,86 @@
 
 <style>
 /* ── Page-specific styles: Irrigation Scheduling Tools ── */
+:root {
+  --osu-orange: var(--orange);
+  --osu-black: #000000;
+  --osu-white: #FFFFFF;
+}
+.page-title { font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.08; color: var(--osu-black); max-width: 900px; margin-bottom: 1rem; }
 .quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2rem; }
-.quick-card { background: var(--black); color: var(--white); border-radius: var(--radius); padding: 1.75rem; position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
-.quick-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(220,68,5,0.08) 0%, transparent 60%); pointer-events: none; }
+.quick-card { background: var(--osu-black); color: var(--osu-white); border-radius: var(--radius); padding: 1.75rem; position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+.quick-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(220,68,5,0.14) 0%, transparent 60%); pointer-events: none; }
 .quick-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.quick-number { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--orange-light); position: relative; }
-.quick-question { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 0.75rem; position: relative; }
-.quick-card h3 { font-family: var(--serif); font-size: 1.15rem; color: var(--white); margin: 0.35rem 0 0.5rem; position: relative; }
-.quick-card > p:last-of-type { font-size: 0.83rem; color: rgba(255,255,255,0.5); line-height: 1.6; position: relative; }
-.quick-card a { display: inline-block; margin-top: 1rem; font-size: 0.8rem; font-weight: 600; color: var(--orange-light); position: relative; }
+.quick-number { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; color: var(--orange-light); position: relative; }
+.quick-question { font-size: 1rem; color: rgba(255,255,255,0.86); margin-top: 0.75rem; position: relative; }
+.quick-card h3 { font-family: var(--serif); font-size: 1.35rem; color: var(--osu-white); margin: 0.35rem 0 0.5rem; position: relative; }
+.quick-card > p:last-of-type { font-size: 1rem; color: rgba(255,255,255,0.82); line-height: 1.65; position: relative; }
+.quick-card a { display: inline-block; margin-top: 1rem; font-size: 1rem; font-weight: 700; color: var(--orange-light); position: relative; }
 
 .filter-panel { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-top: 2rem; }
 .search-box { flex: 1; min-width: 240px; }
-.search-box span { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); margin-bottom: 0.4rem; }
-.search-box input { width: 100%; border: 1.5px solid var(--light-gray); border-radius: 6px; padding: 0.6rem 0.85rem; font-family: var(--sans); font-size: 0.92rem; }
-.search-box input:focus { border-color: var(--orange); outline: none; }
+.search-box span { display: block; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mid); margin-bottom: 0.4rem; }
+.search-box input { width: 100%; border: 1.5px solid var(--light-gray); border-radius: 6px; padding: 0.75rem 0.9rem; font-family: var(--sans); font-size: 1rem; }
+.search-box input:focus { border-color: var(--osu-orange); }
 .category-filter { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.category-filter button { border: 1.5px solid var(--light-gray); background: var(--white); border-radius: 20px; padding: 0.45rem 1rem; font-family: var(--sans); font-size: 0.78rem; font-weight: 600; color: var(--mid); cursor: pointer; transition: all 0.15s; }
-.category-filter button:hover { border-color: var(--orange); color: var(--orange); }
-.category-filter button.active { background: var(--orange); border-color: var(--orange); color: var(--white); }
+.category-filter button { border: 1.5px solid var(--light-gray); background: var(--osu-white); border-radius: 20px; padding: 0.55rem 1rem; font-family: var(--sans); font-size: 0.95rem; font-weight: 700; color: var(--mid); cursor: pointer; transition: all 0.15s; }
+.category-filter button:hover { border-color: var(--osu-orange); color: var(--osu-orange); }
+.category-filter button.active { background: var(--osu-orange); border-color: var(--osu-orange); color: var(--osu-white); }
 
-.result-count { font-size: 0.78rem; color: var(--gray); margin: 1.25rem 0 0.75rem; }
+.result-count { font-size: 0.95rem; color: var(--gray); margin: 1.25rem 0 0.75rem; }
 
 .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.tool-card { background: var(--white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; }
+.tool-card { background: var(--osu-white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; }
 .tool-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
-.tool-tag { font-size: 0.64rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--orange-deep); background: var(--orange-pale); border-radius: 3px; padding: 0.25rem 0.6rem; }
-.tool-access { font-size: 0.68rem; font-weight: 600; color: var(--gray); border: 1px solid var(--light-gray); border-radius: 3px; padding: 0.2rem 0.55rem; }
-.tool-card h3 { font-family: var(--serif); font-size: 1.1rem; color: var(--black); }
-.tool-org { font-size: 0.75rem; color: var(--gray); margin-bottom: 0.75rem; }
-.tool-question { font-size: 0.85rem; font-weight: 600; color: var(--dark); margin-bottom: 0.35rem; }
-.tool-card > p { font-size: 0.85rem; color: var(--mid); line-height: 1.65; }
-.tool-best { font-size: 0.82rem; color: var(--dark); margin-top: 0.65rem; }
-.tool-best strong { color: var(--orange); }
+.tool-tag { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--osu-black); background: var(--osu-white); border: 1px solid var(--osu-orange); border-radius: 3px; padding: 0.3rem 0.65rem; }
+.tool-access { font-size: 0.85rem; font-weight: 700; color: var(--gray); border: 1px solid var(--light-gray); border-radius: 3px; padding: 0.25rem 0.6rem; }
+.tool-card h3 { font-family: var(--serif); font-size: 1.35rem; color: var(--osu-black); }
+.tool-org { font-size: 0.95rem; color: var(--gray); margin-bottom: 0.75rem; }
+.tool-question { font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: 0.35rem; }
+.tool-card > p { font-size: 1rem; color: var(--mid); line-height: 1.7; }
+.tool-best { font-size: 1rem; color: var(--dark); margin-top: 0.65rem; }
+.tool-best strong { color: var(--osu-orange); }
 .tool-card details { margin-top: 0.65rem; }
-.tool-card summary { font-size: 0.78rem; font-weight: 600; color: var(--orange); cursor: pointer; }
-.tool-card details p { font-size: 0.8rem; color: var(--mid); line-height: 1.6; margin-top: 0.4rem; }
-.tool-card > a { margin-top: auto; padding-top: 1rem; font-size: 0.82rem; font-weight: 600; }
+.tool-card summary { font-size: 0.95rem; font-weight: 700; color: var(--osu-orange); cursor: pointer; }
+.tool-card details p { font-size: 1rem; color: var(--mid); line-height: 1.65; margin-top: 0.4rem; }
+.tool-card > a { margin-top: auto; padding-top: 1rem; font-size: 1rem; font-weight: 700; }
 
 .empty-state { text-align: center; padding: 3rem 1rem; }
-.empty-state h3 { font-family: var(--serif); font-size: 1.1rem; margin-bottom: 0.5rem; }
-.empty-state p { font-size: 0.85rem; color: var(--gray); margin-bottom: 1rem; }
+.empty-state h3 { font-family: var(--serif); font-size: 1.35rem; margin-bottom: 0.5rem; }
+.empty-state p { font-size: 1rem; color: var(--gray); margin-bottom: 1rem; }
 
 .method-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2rem; }
-.method-steps article { background: var(--white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.5rem; }
-.method-steps article > span { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); }
-.method-steps h3 { font-family: var(--serif); font-size: 1.05rem; color: var(--black); margin: 0.5rem 0 0.4rem; }
-.method-steps p { font-size: 0.85rem; color: var(--gray); line-height: 1.7; }
+.method-steps article { background: var(--osu-white); border: 1px solid var(--light-gray); border-radius: var(--radius); padding: 1.5rem; }
+.method-steps article > span { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; color: var(--osu-orange); }
+.method-steps h3 { font-family: var(--serif); font-size: 1.25rem; color: var(--osu-black); margin: 0.5rem 0 0.4rem; }
+.method-steps p { font-size: 1rem; color: var(--gray); line-height: 1.7; }
 
-.formula-band { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.5rem; background: var(--black); color: var(--white); border-radius: var(--radius); padding: 1.5rem 1.75rem; }
+.formula-band { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.5rem; background: var(--osu-black); color: var(--osu-white); border-radius: var(--radius); padding: 1.5rem 1.75rem; }
 .formula-band > div { flex: 1; min-width: 200px; }
-.formula-band p { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); margin-bottom: 0.25rem; }
-.formula-band strong { font-family: var(--mono); font-size: 0.9rem; color: var(--orange-light); }
-.formula-band > span { color: rgba(255,255,255,0.35); font-size: 1.1rem; }
+.formula-band p { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.82); margin-bottom: 0.25rem; }
+.formula-band strong { font-family: var(--mono); font-size: 1.05rem; color: var(--orange-light); }
+.formula-band > span { color: rgba(255,255,255,0.7); font-size: 1.1rem; }
 
 .handout-flex { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; margin-top: 2rem; }
 .handout-copy { flex: 1.4; min-width: 280px; }
 .handout-copy ul { padding-left: 1.1rem; margin: 0.75rem 0 1.25rem; }
-.handout-copy li { font-size: 0.87rem; color: var(--mid); line-height: 1.8; }
-.handout-preview { flex: 1; min-width: 260px; background: var(--black); color: var(--white); border-radius: var(--radius); padding: 1.75rem; display: block; transition: transform 0.3s, box-shadow 0.3s; }
+.handout-copy li { font-size: 1rem; color: var(--mid); line-height: 1.8; }
+.download-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.handout-preview { flex: 1; min-width: 260px; background: var(--osu-black); color: var(--osu-white); border-radius: var(--radius); padding: 1.75rem; display: block; transition: transform 0.3s, box-shadow 0.3s; }
 .handout-preview:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); text-decoration: none; }
-.preview-kicker { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--orange-light); }
-.handout-preview strong { display: block; font-family: var(--serif); font-size: 1.2rem; color: var(--white); margin: 0.6rem 0 0.4rem; }
-.handout-preview p { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+.preview-kicker { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--orange-light); }
+.handout-preview strong { display: block; font-family: var(--serif); font-size: 1.4rem; color: var(--osu-white); margin: 0.6rem 0 0.4rem; }
+.handout-preview p { font-size: 1rem; color: rgba(255,255,255,0.82); line-height: 1.65; }
 .preview-terms { display: flex; gap: 0.5rem; margin: 1rem 0; }
-.preview-terms span { font-family: var(--mono); font-size: 0.72rem; color: var(--orange-light); border: 1px solid rgba(240,90,32,0.4); border-radius: 3px; padding: 0.2rem 0.55rem; }
-.handout-preview small { font-size: 0.75rem; color: rgba(255,255,255,0.45); }
+.preview-terms span { font-family: var(--mono); font-size: 0.85rem; color: var(--orange-light); border: 1px solid var(--orange-light); border-radius: 3px; padding: 0.25rem 0.6rem; }
+.handout-preview small { font-size: 0.9rem; color: rgba(255,255,255,0.82); }
 
 .source-list { margin-top: 2rem; max-width: 760px; }
 .source-list ul { list-style: none; }
-.source-list li { padding: 0.55rem 0; border-bottom: 1px solid var(--light-gray); font-size: 0.87rem; }
-.source-note { font-size: 0.78rem; color: var(--gray); margin-top: 1.25rem; }
+.source-list li { padding: 0.65rem 0; border-bottom: 1px solid var(--light-gray); font-size: 1rem; }
+.source-note { font-size: 0.95rem; color: var(--gray); margin-top: 1.25rem; }
+
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible { outline: 3px solid var(--osu-orange); outline-offset: 3px; }
 
 @media (max-width: 980px) {
   .quick-grid, .method-steps { grid-template-columns: 1fr; }
@@ -105,7 +114,7 @@
     <li><a href="/pages/news.html">News</a></li>
     <li><a href="/pages/contact.html">Contact</a></li>
   </ul>
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+  <button class="nav-hamburger" id="hamburger" aria-label="Open navigation menu" aria-controls="nav-links" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -116,8 +125,10 @@
   <!-- ── QUICK PICKS ── -->
   <section class="section"><div class="container">
     <p class="section-label">Oregon Grower Resource</p>
+    <h1 class="page-title">Irrigation scheduling tools for Oregon growers</h1>
+    <p class="section-desc">This dashboard brings together irrigation scheduling tools available to Oregon growers. Each listing explains the tool’s purpose, available information, access options and key considerations for use.</p>
     <h2 class="section-title">Start with the decision you need to make</h2>
-    <p class="section-desc">No single tool answers every irrigation question. Use weather-based crop ET to estimate demand, soil information to understand storage, and field observations to verify what is happening in the root zone. This directory, curated by the AHGRI Lab, matches each tool to the decision it supports.</p>
+    <p class="section-desc">No single resource answers every irrigation question. Use weather-based crop ET to estimate demand, soil information to understand storage and field observations to verify root-zone conditions.</p>
     <div class="quick-grid" id="quick-grid"></div>
   </div></section>
 
@@ -126,13 +137,13 @@
   <!-- ── TOOL FINDER ── -->
   <section class="section section-alt"><div class="container">
     <p class="section-label">Updateable Directory</p>
-    <h2 class="section-title">Compare Oregon-ready tools and resources</h2>
-    <p class="section-desc">Entries are separated by function so a data viewer is not mistaken for a complete scheduling recommendation.</p>
+    <h2 class="section-title">Compare tools and resources available to Oregon growers</h2>
+    <p class="section-desc">Entries are grouped by function so users can distinguish a complete scheduling tool from a data viewer, calculator or supporting guide.</p>
 
     <div class="filter-panel" aria-label="Tool filters">
       <label class="search-box">
         <span>Search</span>
-        <input type="search" id="tool-search" placeholder="Try: alfalfa, soil, satellite, API">
+        <input type="search" id="tool-search" placeholder="Try: soil, satellite, free account, API">
       </label>
       <div class="category-filter" id="category-filter" role="group" aria-label="Filter by purpose"></div>
     </div>
@@ -152,15 +163,15 @@
   <section class="section"><div class="container">
     <p class="section-label">A Durable Way to Use Any Tool</p>
     <h2 class="section-title">The 3-check method</h2>
-    <p class="section-desc">A scheduling tool is strongest when three independent lines of information agree. If they disagree, investigate before adding water.</p>
+    <p class="section-desc">Irrigation decisions are stronger when climate estimates, soil information and field observations tell a consistent story. When the three checks do not align, review the inputs, measurements and field conditions before changing the schedule.</p>
     <div class="method-steps">
-      <article><span>01</span><h3>Climate estimates demand</h3><p>Use reference ET and an appropriate crop coefficient, or a field-scale actual ET product, for the question at hand.</p></article>
+      <article><span>01</span><h3>Climate estimates demand</h3><p>Use reference ET with an appropriate crop coefficient to estimate crop water use. Satellite-based actual ET can help review field-scale patterns over time.</p></article>
       <article><span>02</span><h3>Soil defines storage</h3><p>Account for available water capacity, effective rooting depth and the allowable depletion that fits the crop and growth stage.</p></article>
       <article><span>03</span><h3>The field verifies reality</h3><p>Check soil moisture, rooting, crop condition, applied depth and distribution uniformity. Correct the model when the field disagrees.</p></article>
     </div>
     <div class="formula-band">
       <div><p>Crop water use</p><strong>ET<sub>c</sub> = K<sub>c</sub> &times; ET<sub>ref</sub></strong></div><span aria-hidden="true">&rarr;</span>
-      <div><p>Root-zone balance</p><strong>Deficit = ET<sub>c</sub> &minus; effective rain &minus; net irrigation</strong></div><span aria-hidden="true">&rarr;</span>
+      <div><p>Simplified root-zone balance</p><strong>D<sub>today</sub> = D<sub>previous</sub> + ET<sub>c</sub> &minus; effective precipitation &minus; net irrigation</strong></div><span aria-hidden="true">&rarr;</span>
       <div><p>Gross depth to apply</p><strong>Gross = net refill &divide; application efficiency</strong></div>
     </div>
   </div></section>
@@ -179,7 +190,9 @@
           <li>Includes a worked irrigation-depth example</li>
           <li>Links back to this updateable tool directory</li>
         </ul>
-        <a class="btn btn-primary" href="/files/Oregon_ET_Irrigation_Handout.pdf" download>Download the ET handout &darr;</a>
+        <div class="download-actions">
+          <a class="btn btn-primary" href="/files/Oregon_ET_Irrigation_Handout.pdf" download>Download the ET handout &darr;</a>
+        </div>
       </div>
       <a class="handout-preview" href="/files/Oregon_ET_Irrigation_Handout.pdf" aria-label="Open the two-page ET irrigation handout">
         <span class="preview-kicker">Oregon grower reference &middot; 2 pages</span>
@@ -203,10 +216,15 @@
         <li><a href="https://irrigation.wsu.edu/Content/Resources/Irrigation-Scheduling-Aids-Tools.php" target="_blank" rel="noreferrer">WSU Irrigation Scheduling Aids and Tools</a></li>
         <li><a href="https://etdata.org/openet-data-explorer/" target="_blank" rel="noreferrer">OpenET Data Explorer documentation</a></li>
         <li><a href="https://etdata.org/farms-tool/" target="_blank" rel="noreferrer">OpenET FARMS documentation</a></li>
+        <li><a href="https://etdata.org/api/" target="_blank" rel="noreferrer">OpenET API documentation</a></li>
         <li><a href="https://extension.oregonstate.edu/catalog/em-9717-irrigation-water-scheduling" target="_blank" rel="noreferrer">OSU Extension irrigation scheduling guide</a></li>
+        <li><a href="https://extension.oregonstate.edu/catalog/em-9868-soil-moisture-monitoring-support-irrigation-scheduling" target="_blank" rel="noreferrer">OSU Extension soil moisture monitoring guide</a></li>
         <li><a href="https://websoilsurvey.nrcs.usda.gov/" target="_blank" rel="noreferrer">USDA NRCS Web Soil Survey</a></li>
+        <li><a href="https://irrigation.wsu.edu/" target="_blank" rel="noreferrer">Irrigation in the Pacific Northwest</a></li>
+        <li><a href="https://agwater.oregonstate.edu/tools" target="_blank" rel="noreferrer">OSU Ag Water tools</a></li>
+        <li><a href="/pages/irrigation-calculators.html">AHGRI irrigation calculators</a></li>
       </ul>
-      <p class="source-note">Last content verification: August 2026. Tool availability, interfaces and account requirements may change. Questions or suggestions for the directory: <a href="mailto:floyid.nicolas@oregonstate.edu">floyid.nicolas@oregonstate.edu</a>.</p>
+      <p class="source-note">External resource links last verified August 22, 2026. Tool availability, interfaces and account requirements may change. Questions or suggestions for the directory: <a href="mailto:floyid.nicolas@oregonstate.edu">floyid.nicolas@oregonstate.edu</a>.</p>
     </div>
   </div></section>
 </main>
@@ -265,12 +283,12 @@
 
       <div class="footer-col">
         <h4>Connect</h4>
-        <a href="https://bee.oregonstate.edu/users/floyid-nicolas" target="_blank">OSU Faculty Profile</a>
-        <a href="https://scholar.google.com/citations?user=Qhddsw8AAAAJ" target="_blank">Google Scholar</a>
-        <a href="https://www.researchgate.net/profile/Floyid-Nicolas" target="_blank">ResearchGate</a>
+        <a href="https://bee.oregonstate.edu/users/floyid-nicolas" target="_blank" rel="noopener noreferrer">OSU Faculty Profile</a>
+        <a href="https://scholar.google.com/citations?user=Qhddsw8AAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+        <a href="https://www.researchgate.net/profile/Floyid-Nicolas" target="_blank" rel="noopener noreferrer">ResearchGate</a>
         <a href="mailto:floyid.nicolas@oregonstate.edu">floyid.nicolas@oregonstate.edu</a>
         <a href="tel:5414757107">(541) 475-7107</a>
-        <a href="https://bee.oregonstate.edu/" target="_blank">BEE Department, OSU</a>
+        <a href="https://bee.oregonstate.edu/" target="_blank" rel="noopener noreferrer">BEE Department, OSU</a>
       </div>
 
     </div>
@@ -281,8 +299,11 @@
 </footer>
 
 <script>
-  document.getElementById('hamburger').addEventListener('click', () => {
-    document.getElementById('nav-links').classList.toggle('open');
+  document.getElementById('hamburger').addEventListener('click', (event) => {
+    const navLinks = document.getElementById('nav-links');
+    const isOpen = navLinks.classList.toggle('open');
+    event.currentTarget.setAttribute('aria-expanded', String(isOpen));
+    event.currentTarget.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
   });
 </script>
 
@@ -300,7 +321,7 @@ const TOOLS = [
     organization: 'Washington State University',
     category: 'Schedule',
     question: 'When should I irrigate, and how much?',
-    answer: 'Runs a field-level soil water balance using crop, soil, weather, rainfall and recorded irrigation information.',
+    answer: 'Uses crop, soil, local weather, rainfall and recorded irrigation data to track soil-water depletion and estimate when irrigation is needed and how much water to apply.',
     access: 'Free account',
     bestFor: 'A primary day-to-day scheduling workflow',
     caution: 'Field setup matters. Check soil water-holding capacity, rooting depth, application rate and actual irrigation depth.',
@@ -325,9 +346,9 @@ const TOOLS = [
     name: 'OpenET Data Explorer',
     organization: 'OpenET',
     category: 'Field review',
-    question: 'How much water did this field consume?',
-    answer: 'Maps satellite-based actual ET at 30-meter resolution and provides field or raster summaries, time series and CSV downloads.',
-    access: 'Open',
+    question: 'How much water left the field through evapotranspiration?',
+    answer: 'Maps satellite-based estimates of actual ET at 30-meter resolution and provides field or raster summaries, time series and CSV downloads.',
+    access: 'Free account',
     bestFor: 'Reviewing spatial patterns, seasonal use and differences among fields',
     caution: 'Use as a field-performance and historical ET resource. It does not by itself calculate the next irrigation date or gross application depth.',
     url: 'https://explore.etdata.org/',
@@ -350,8 +371,8 @@ const TOOLS = [
     name: 'OpenET FARMS',
     organization: 'OpenET',
     category: 'Field review',
-    question: 'Can I receive repeatable ET reports for my fields?',
-    answer: 'Creates customizable field reports with selectable boundaries, time periods and ET models. Reports can recur and download as CSV or PDF.',
+    question: 'Can I receive recurring ET reports for my fields?',
+    answer: 'Creates customizable field reports with selectable boundaries, time periods and ET models. Users can schedule recurring reports and download results as CSV or PDF.',
     access: 'Free account',
     bestFor: 'Growers and advisors monitoring multiple fields or seasons',
     caution: 'Requires an OpenET account and API key. Treat reports as decision support and compare with local field measurements.',
@@ -363,7 +384,7 @@ const TOOLS = [
     organization: 'USDA Natural Resources Conservation Service',
     category: 'Soil input',
     question: 'How much water can my soil store?',
-    answer: 'Maps soil properties, including available water capacity and available water storage for a selected area and depth.',
+    answer: 'Provides mapped estimates of soil properties, including available water capacity, for a selected area and soil depth.',
     access: 'Open',
     bestFor: 'Initial soil inputs for a checkbook or computerized scheduler',
     caution: 'Mapped values are estimates for soil map units. Confirm restrictive layers and field variability on site.',
@@ -387,7 +408,7 @@ const TOOLS = [
     organization: 'OSU Extension',
     category: 'Guidance',
     question: 'How do I use sensor readings to check a schedule?',
-    answer: 'Covers sensor selection, placement, interpretation, field variability and integration with ET-based scheduling.',
+    answer: 'Covers soil-moisture measurement methods, sensor placement, interpretation, field variability and integration with ET-based scheduling.',
     access: 'Open',
     bestFor: 'Designing or improving a root-zone monitoring plan',
     caution: 'Sensors sample a limited soil volume. Installation, calibration, depth and placement determine whether readings are representative.',
@@ -396,7 +417,7 @@ const TOOLS = [
   },
   {
     name: 'Irrigation in the Pacific Northwest',
-    organization: 'Washington State University',
+    organization: 'WSU, OSU and University of Idaho Extension',
     category: 'Guidance',
     question: 'How do I check system capacity and application?',
     answer: 'Collects irrigation manuals, scheduling aids and calculators for pivots, sprinklers, application rate, uniformity and water measurement.',
@@ -407,14 +428,14 @@ const TOOLS = [
     sourceLabel: 'Open calculators'
   },
   {
-    name: 'Ag Water Chat',
+    name: 'Ag Water Chatbot',
     organization: 'OSU Ag Water',
     category: 'Guidance',
     question: 'Where can I ask a water-management question?',
-    answer: 'An AI-guided entry point trained on Extension and other curated agriculture, water and soil resources.',
-    access: 'Open',
-    bestFor: 'Finding explanations and source materials in plain language',
-    caution: 'Use it as a guidance and discovery resource. Verify linked sources and do not use a chat response alone to set field irrigation.',
+    answer: 'An experimental AI chatbot for questions about agricultural water management in Oregon and the Pacific Northwest.',
+    access: 'Experimental',
+    bestFor: 'Finding explanations and useful starting points in plain language',
+    caution: 'Answers may not always be accurate. Verify linked sources and do not use a chat response alone to set field irrigation.',
     url: 'https://agwater.oregonstate.edu/agTap',
     sourceLabel: 'Ask Ag Water'
   },
@@ -424,7 +445,7 @@ const TOOLS = [
     category: 'Advanced',
     question: 'Can I automate ET retrieval for many fields?',
     answer: 'Provides programmatic ET queries for custom boundaries, time periods and repeated workflows, subject to free usage quotas.',
-    access: 'Technical',
+    access: 'Free account + API key',
     bestFor: 'Consultants, researchers and software integrations',
     caution: 'Requires an account, API key and data-processing workflow. Document model, time step, units and quality-control choices.',
     url: 'https://etdata.org/api/',
@@ -438,7 +459,11 @@ let activeCategory = 'All';
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 function externalAttrs(url) {
-  return url.startsWith('http') ? ' target="_blank" rel="noreferrer"' : '';
+  return url.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : '';
+}
+
+function linkArrow(url) {
+  return url.startsWith('http') ? ' &nearr;' : ' &rarr;';
 }
 
 function renderQuickPicks() {
@@ -448,7 +473,7 @@ function renderQuickPicks() {
       '<p class="quick-question">' + esc(t.question) + '</p>' +
       '<h3>' + esc(t.name) + '</h3>' +
       '<p>' + esc(t.bestFor) + '</p>' +
-      '<a href="' + t.url + '"' + externalAttrs(t.url) + '>' + esc(t.sourceLabel) + ' &nearr;</a>' +
+      '<a href="' + t.url + '"' + externalAttrs(t.url) + '>' + esc(t.sourceLabel) + linkArrow(t.url) + '</a>' +
     '</article>'
   ).join('');
 }
@@ -463,7 +488,7 @@ function renderTools() {
   const search = document.getElementById('tool-search').value.trim().toLowerCase();
   const filtered = TOOLS.filter(t => {
     const matchesCategory = activeCategory === 'All' || t.category === activeCategory;
-    const haystack = [t.name, t.organization, t.question, t.answer, t.bestFor, t.category].join(' ').toLowerCase();
+    const haystack = [t.name, t.organization, t.question, t.answer, t.bestFor, t.caution, t.access, t.category, t.sourceLabel].join(' ').toLowerCase();
     return matchesCategory && (!search || haystack.includes(search));
   });
 
@@ -479,7 +504,7 @@ function renderTools() {
       '<p>' + esc(t.answer) + '</p>' +
       '<p class="tool-best"><strong>Best for:</strong> ' + esc(t.bestFor) + '</p>' +
       '<details><summary>Field note</summary><p>' + esc(t.caution) + '</p></details>' +
-      '<a href="' + t.url + '"' + externalAttrs(t.url) + '>' + esc(t.sourceLabel) + ' &nearr;</a>' +
+      '<a href="' + t.url + '"' + externalAttrs(t.url) + '>' + esc(t.sourceLabel) + linkArrow(t.url) + '</a>' +
     '</article>'
   ).join('');
 }
