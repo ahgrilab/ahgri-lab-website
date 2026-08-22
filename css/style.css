@@ -767,6 +767,7 @@ footer {
   height: 70px;
   width: auto;
   display: block;
+  flex-shrink: 0;
 }
 @media (max-width: 600px) {
   .nav-logo-full { height: 50px; }
