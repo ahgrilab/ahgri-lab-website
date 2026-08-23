@@ -178,7 +178,7 @@ main { padding-top: var(--nav-h); flex: 1; }
   line-height: 1.2;
 }
 .section-desc {
-  color: var(--gray);
+  color: var(--mid);
   font-size: 1.02rem; line-height: 1.75;
   max-width: 580px;
   margin-bottom: 2.5rem;
@@ -259,7 +259,7 @@ hr.divider {
 .person-avatar img { width: 100%; height: 100%; object-fit: cover}
 .person-info h3 { font-size: 1rem; font-weight: 600; color: var(--black); margin-bottom: 0.2rem; }
 .person-role { font-size: 0.8rem; color: var(--orange); font-weight: 600; margin-bottom: 0.4rem; }
-.person-info p { font-size: 0.83rem; color: var(--gray); line-height: 1.6; }
+.person-info p { font-size: 0.95rem; color: var(--mid); line-height: 1.6; }
 
 /* ── PI Photo ── */
 .pi-photo {
@@ -288,7 +288,7 @@ hr.divider {
   font-weight: 500; padding-top: 2px;
 }
 .pub-title { font-size: 0.95rem; font-weight: 600; color: var(--black); line-height: 1.45; margin-bottom: 0.3rem; }
-.pub-authors { font-size: 0.82rem; color: var(--gray); margin-bottom: 0.3rem; }
+.pub-authors { font-size: 0.875rem; color: var(--gray); margin-bottom: 0.3rem; }
 .pub-journal { font-size: 0.82rem; font-style: italic; color: var(--mid); margin-bottom: 0.5rem; }
 .pub-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 .pub-link {
@@ -313,7 +313,7 @@ hr.divider {
 }
 .project-item:hover { box-shadow: var(--shadow-sm); }
 .project-item h3 { font-size: 1rem; font-weight: 600; color: var(--black); margin-bottom: 0.4rem; }
-.project-item p { font-size: 0.88rem; color: var(--gray); line-height: 1.65; }
+.project-item p { font-size: 0.95rem; color: var(--mid); line-height: 1.65; }
 .project-meta {
   display: flex; gap: 1rem; margin-top: 0.75rem;
   flex-wrap: wrap;
@@ -355,7 +355,7 @@ hr.divider {
   letter-spacing: 0.08em; font-weight: 600; margin-bottom: 0.5rem;
 }
 .news-card h3 { font-size: 0.93rem; font-weight: 600; line-height: 1.4; color: var(--black); margin-bottom: 0.5rem; }
-.news-card p { font-size: 0.83rem; color: var(--gray); line-height: 1.6; }
+.news-card p { font-size: 0.95rem; color: var(--mid); line-height: 1.6; }
 
 /* ── GRANT ROW ── */
 .grant-row {
@@ -372,7 +372,7 @@ hr.divider {
   font-weight: 500; padding-top: 2px;
 }
 .grant-row h3 { font-size: 0.95rem; font-weight: 600; color: var(--black); margin-bottom: 0.3rem; }
-.grant-row p { font-size: 0.83rem; color: var(--gray); }
+.grant-row p { font-size: 0.95rem; color: var(--mid); }
 .grant-amt {
   font-size: 1rem; font-weight: 700;
   color: var(--orange); text-align: right;
@@ -397,7 +397,7 @@ hr.divider {
   color: var(--orange); font-weight: 500; margin-bottom: 0.4rem;
 }
 .course-card h3 { font-size: 1rem; font-weight: 600; color: var(--black); margin-bottom: 0.6rem; }
-.course-card p { font-size: 0.87rem; color: var(--gray); line-height: 1.65; }
+.course-card p { font-size: 0.95rem; color: var(--mid); line-height: 1.65; }
 .course-tags { display: flex; gap: 0.5rem; margin-top: 0.9rem; flex-wrap: wrap; }
 .course-tags span {
   font-size: 0.7rem; padding: 0.2rem 0.55rem;
@@ -680,15 +680,6 @@ footer {
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .grant-row { grid-template-columns: 1fr; }
   .grant-amt { text-align: left; }
-  .nav-links {
-    display: none; flex-direction: column;
-    position: absolute; top: var(--nav-h); left: 0; right: 0;
-    background: #fff; padding: 1rem; gap: 0;
-    border-bottom: 2px solid var(--orange);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-  }
-  .nav-links.open { display: flex; }
-  .nav-hamburger { display: flex; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
   .gallery-cell:first-child { grid-column: span 2; }
   /* PI section responsive */
