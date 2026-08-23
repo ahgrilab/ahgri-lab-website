@@ -37,6 +37,9 @@ body {
   background: var(--white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 a { color: var(--orange); text-decoration: none; transition: color 0.15s; }
@@ -125,7 +128,7 @@ nav#main-nav {
 }
 
 /* ── PAGE LAYOUT ── */
-main { padding-top: var(--nav-h); min-height: 100vh; }
+main { padding-top: var(--nav-h); flex: 1; }
 .container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
 
 /* ── PAGE HERO (inner pages) ── */
